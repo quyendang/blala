@@ -1,24 +1,30 @@
-# This is a template for a Python scraper on morph.io (https://morph.io)
-# including some code snippets below that you should find helpful
+import json, urllib, http.client
+import requests
 
-# import scraperwiki
-# import lxml.html
-#
-# # Read in a page
-# html = scraperwiki.scrape("http://foo.com")
-#
-# # Find something on the page using css selectors
-# root = lxml.html.fromstring(html)
-# root.cssselect("div[align='left']")
-#
-# # Write out to the sqlite database using scraperwiki library
-# scraperwiki.sqlite.save(unique_keys=['name'], data={"name": "susan", "occupation": "software developer"})
-#
-# # An arbitrary query against the database
-# scraperwiki.sql.select("* from data where 'name'='peter'")
+pushoverAPIToken = "ah2hby41xn2viu41syq295ipeoss4e"
+pushoverUserID = "uqyjaksy71vin1ftoafoujqqg1s8rz"
 
-# You don't have to do things with the ScraperWiki and lxml libraries.
-# You can use whatever libraries you want: https://morph.io/documentation/python
-# All that matters is that your final data is written to an SQLite database
-# called "data.sqlite" in the current working directory which has at least a table
-# called "data".
+
+
+headers = {'User-Agent': 'Mozilla/5.0 (compatible; MSIE 10.0; Windows Phone OS 7.5; Trident/5.0; IEMobile/10.0; Trident/6.0)'}
+page = requests.get('https://googleads.g.doubleclick.net/mads/static/mad/sdk/native/sdk-core-v40-loader.appcache', headers=headers)
+htmlstr = page.text
+x = htmlstr.split("#")
+y = x[3].split(" = ")
+sdk = y[1]
+
+message = "SDK change to " + sdk
+
+if "sdk_20221206_RC00" not in sdk:
+    messages = {
+        "token": pushoverAPIToken,
+        "user": pushoverUserID,
+        "message": message,
+        "title": "SDK Alert",
+        "html": 1,
+        "priority": 1,
+        "sound": "falling",
+        "url": "https://googleads.g.doubleclick.net/mads/static/mad/sdk/native/sdk-core-v40-loader.appcache"
+        }
+    r = requests.post(url = "https://api.pushover.net/1/messages.json", data = messages)
+    print(r.text)

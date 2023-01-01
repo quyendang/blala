@@ -1,4 +1,3 @@
-import json, urllib, http.client
 import requests
 
 pushoverAPIToken = "ah2hby41xn2viu41syq295ipeoss4e"

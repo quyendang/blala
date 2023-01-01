@@ -1,4 +1,6 @@
 import requests
+import scraperwiki
+
 
 pushoverAPIToken = "ah2hby41xn2viu41syq295ipeoss4e"
 pushoverUserID = "uqyjaksy71vin1ftoafoujqqg1s8rz"
@@ -11,9 +13,9 @@ htmlstr = page.text
 x = htmlstr.split("#")
 y = x[3].split(" = ")
 sdk = y[1]
-
+scraperwiki.sqlite.save(unique_keys=['name'], data={"sdk": sdk})
 message = "SDK change to " + sdk
-
+print(sdk)
 if "sdk_20221206_RC00" in sdk:
     messages = {
         "token": pushoverAPIToken,

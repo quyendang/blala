@@ -15,7 +15,7 @@ sdk = y[1]
 
 message = "SDK change to " + sdk
 
-if "sdk_20221206_RC00" not in sdk:
+if "sdk_20221206_RC00" in sdk:
     messages = {
         "token": pushoverAPIToken,
         "user": pushoverUserID,
